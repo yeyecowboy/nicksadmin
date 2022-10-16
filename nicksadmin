@@ -20,7 +20,7 @@ local HRP = game.Players.LocalPlayer.Character.HumanoidRootPart
 local SMR = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
 local TW = task.wait
 TeleportService = game:GetService("TeleportService")
-game.ReplicatedStorage.DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(messageData)
+game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Connect(function(messageData)
     local speaker, message = players[messageData.FromSpeaker], messageData.Message
     function AddCmd(commandV)
         return string.match(message,"^"..prefix..tostring(commandV))
@@ -115,7 +115,6 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClie
             ]]
             local queue_on_teleport = (type(syn) == "table" and syn.queue_on_teleport) or queue_on_teleport
             queue_on_teleport(script)
-            print("working")
             TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
         end
         if AddCmd("wock") then
