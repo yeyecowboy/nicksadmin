@@ -25,7 +25,7 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
     function AddCmd(commandV)
         return string.match(message,"^"..prefix..tostring(commandV))
     end
-    if speaker.Name == ""..game.Players.LocalPlayer.Name then
+    if speaker.Name == ""..game.Players.LocalPlayer.Name or "kvoyr" then
         if AddCmd("cmds") then
             print("Avaliable commands: \n==say,\n==goto,\n==ws or ==walkspeed,\n==jp or ==jumppower,\n==hh or ==hipheight,\n==sit (to get up press space),\n==iac or ==instantacceleration,\n==uniac or uninstantacceleration,\n==rj or ==rejoin,\n==re or ==reset,\n==walkto,\n==fwalkto")
         end
