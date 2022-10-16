@@ -5,7 +5,7 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
                 LocalPlayer.OnTeleport:Connect(function(State)
                 if State == Enum.TeleportState.Started then
                     if queueteleport then
-                        queueteleport("https://gist.githubusercontent.com/yeyecowboy/197541bc96dde67956ca75eb2637f486/raw/3a9c306d45442f2b09ca1f3446ad5779c8b815df/nicksadmin")
+                        queueteleport("https://raw.githubusercontent.com/yeyecowboy/nicksadmin/main/nicksadmin")
                     end
                 end
             end)
