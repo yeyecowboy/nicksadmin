@@ -1,14 +1,5 @@
 print("Executed!")
 prefix="=="
-local LocalPlayer = game:GetService("Players").LocalPlayer
-                local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
-                LocalPlayer.OnTeleport:Connect(function(State)
-                if State == Enum.TeleportState.Started then
-                    if queueteleport then
-                        queueteleport("https://raw.githubusercontent.com/yeyecowboy/nicksadmin/main/nicksadmin")
-                    end
-                end
-            end)
 function predictname(NameVariable)
             local Table = game.Players:GetChildren()
             for i,v in pairs (Table) do
@@ -121,6 +112,11 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClie
             TW(0.1)
             localPlayer:Kick("\nUpdating...")
             TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
+            local script = [[
+                 https://raw.githubusercontent.com/yeyecowboy/nicksadmin/main/nicksadmin
+            ]]
+            local queue_on_teleport = (type(syn) == "table" and syn.queue_on_teleport) or queue_on_teleport
+             queue_on_teleport(script)
         end
         if AddCmd("wock") then
             SMR:FireServer("I took the wOOoOoCk to Poland", "All")
