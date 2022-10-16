@@ -1,3 +1,4 @@
+wait(3)
 print("Executed!")
 prefix="=="
 function predictname(NameVariable)
