@@ -82,13 +82,19 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
             game.Players.LocalPlayer.Character.Humanoid.Health = 0
         end 
         if AddCmd("rj") then
-            localPlayer:Kick("\nRejoining...")
-            task.wait()
+            local script = [[
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/yeyecowboy/nicksadmin/main/nicksadmin", true))()
+            ]]
+            local queue_on_teleport = (type(syn) == "table" and syn.queue_on_teleport) or queue_on_teleport
+            queue_on_teleport(script)
             TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
         end  
         if AddCmd("rejoin") then
-            localPlayerr:Kick("\nRejoining...")
-            task.wait()
+            local script = [[
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/yeyecowboy/nicksadmin/main/nicksadmin", true))()
+            ]]
+            local queue_on_teleport = (type(syn) == "table" and syn.queue_on_teleport) or queue_on_teleport
+            queue_on_teleport(script)
             TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
         end 
         if AddCmd("re") then
@@ -120,7 +126,7 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
         if AddCmd("wock") then
             SMR:FireServer("I took the wOOoOoCk to Poland", "All")
         end
-        if string.match(message,"^"..prefix.."nolimbs") then
+        if AddCmd("nolimbs") then
                 game.Players.LocalPlayer.Character["Left Arm"]:Destroy()
                 game.Players.LocalPlayer.Character["Right Arm"]:Destroy()
                 game.Players.LocalPlayer.Character["Left Leg"]:Destroy()
