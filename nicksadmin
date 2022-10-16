@@ -1,0 +1,129 @@
+print("Executed!")
+prefix="=="
+local LocalPlayer = game:GetService("Players").LocalPlayer
+                local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
+                LocalPlayer.OnTeleport:Connect(function(State)
+                if State == Enum.TeleportState.Started then
+                    if queueteleport then
+                        queueteleport("https://gist.githubusercontent.com/yeyecowboy/197541bc96dde67956ca75eb2637f486/raw/3a9c306d45442f2b09ca1f3446ad5779c8b815df/nicksadmin")
+                    end
+                end
+            end)
+function predictname(NameVariable)
+            local Table = game.Players:GetChildren()
+            for i,v in pairs (Table) do
+                if v.DisplayName ~= ""..game.Players.LocalPlayer.Name then
+                    if string.find(string.lower(v.Name), string.lower(NameVariable)) then
+                        return v.Name
+                    elseif string.find(string.lower(v.DisplayName), string.lower(NameVariable)) then
+                        return v.Name
+                    end
+                end
+            end
+        end
+local players, replicatedStorage = game:GetService("Players"), game:GetService("ReplicatedStorage");
+local localPlayer = game.Players.LocalPlayer
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+local HRP = game.Players.LocalPlayer.Character.HumanoidRootPart
+local SMR = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
+local TW = task.wait
+TeleportService = game:GetService("TeleportService")
+game.ReplicatedStorage.DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(messageData)
+    local speaker, message = players[messageData.FromSpeaker], messageData.Message
+    function AddCmd(commandV)
+        return string.match(message,"^"..prefix..tostring(commandV))
+    end
+    if speaker.Name == ""..game.Players.LocalPlayer.Name then
+        if AddCmd("cmds") then
+            print("Avaliable commands: \n==say,\n==goto,\n==ws or ==walkspeed,\n==jp or ==jumppower,\n==hh or ==hipheight,\n==sit (to get up press space),\n==iac or ==instantacceleration,\n==uniac or uninstantacceleration,\n==rj or ==rejoin,\n==re or ==reset,\n==walkto,\n==fwalkto")
+        end
+        if AddCmd("say") then
+            if string.match(message,"^"..prefix.."say") then
+                 local Args = string.match(message,"%"..prefix.."say%s?(.+)")
+                 game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(Args, "All")
+            end
+        end
+        if AddCmd("goto") then
+            local Args = predictname(tostring(string.split(message," ")[2]))
+            HRP.CFrame = game.Players[Args].Character.HumanoidRootPart.CFrame
+        end
+        if AddCmd("ws") then
+            local Args = tostring(string.split(message," ")[2])
+            localPlayer.Character.Humanoid.WalkSpeed = Args
+        end
+        if AddCmd("walkspeed") then
+            local Args = tostring(string.split(message," ")[2])
+            localPlayer.Character.Humanoid.WalkSpeed = Args
+        end
+        if AddCmd("jp") then
+            local Args = tostring(string.split(message," ")[2])
+            localPlayer.Character.Humanoid.JumpPower = Args
+        end
+        if AddCmd("jumppower") then
+            local Args = tostring(string.split(message," ")[2])
+            localPlayer.Character.Humanoid.JumpPower = Args
+        end
+        if AddCmd("hh") then
+            local Args = tostring(string.split(message," ")[2])
+            game.Players.LocalPlayer.Character.Humanoid.HipHeight = Args
+        end
+        if AddCmd("hipheight") then
+            local Args = tostring(string.split(message," ")[2])
+            game.Players.LocalPlayer.Character.Humanoid.HipHeight = Args
+        end
+        if AddCmd("sit") then
+            local Args = tostring(string.split(message," ")[2])
+            game.Players.LocalPlayer.Character.Humanoid.Sit = true
+            print("jump to get up from sitting")
+        end
+        if AddCmd("iac") then
+            game.Players.LocalPlayer.Character:GetChildren().CustomPhysicalProperties = nil
+            
+        end 
+        if AddCmd("instantaccelerate") then
+            game.Players.LocalPlayer.Character:GetChildren().CustomPhysicalProperties = nil
+        end 
+        if AddCmd("uniac") then
+            game.Players.LocalPlayer.Character.Humanoid.Health = 0
+        end
+        if AddCmd("uninstantaccelerate") then
+            game.Players.LocalPlayer.Character.Humanoid.Health = 0
+        end 
+        if AddCmd("rj") then
+            localPlayer:Kick("\nRejoining...")
+            task.wait()
+            TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
+        end  
+        if AddCmd("rejoin") then
+            localPlayerr:Kick("\nRejoining...")
+            task.wait()
+            TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
+        end 
+        if AddCmd("re") then
+            game.Players.LocalPlayer.Character.Humanoid.Health = 0
+        end    
+        if AddCmd("reset") then
+            game.Players.LocalPlayer.Character.Humanoid.Health = 0
+        end
+        if AddCmd("walkto") then
+            local Args = predictname(tostring(string.split(message," ")[2]))
+            humanoid.WalkToPoint = game.Players[Args].Character.HumanoidRootPart.Position
+        end  
+        if AddCmd("fwalkto") then
+            local Args = predictname(tostring(string.split(message," ")[2]))
+            local Args1 = tostring(string.split(message," ")[3])
+            humanoid.WalkToPoint = game.Players[Args].Character.HumanoidRootPart.Position
+            localPlayer.Character.Humanoid.WalkSpeed = Args1
+            
+        end 
+        if AddCmd("upd") then
+            SMR:FireServer("Updating...", "All")
+            TW(0.1)
+            localPlayer:Kick("\nUpdating...")
+            TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
+        end
+        if AddCmd("wock") then
+            SMR:FireServer("I took the wOOoOoCk to Poland", "All")
+        end
+    end
+end)
