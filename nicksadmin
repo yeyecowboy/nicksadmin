@@ -12,7 +12,12 @@ function predictname(NameVariable)
                     end
                 end
             end
-        end
+end
+function isNumber(str)
+	if tonumber(str) ~= nil or str == 'inf' then
+		return true
+	end
+end
 local players, replicatedStorage = game:GetService("Players"), game:GetService("ReplicatedStorage");
 local localPlayer = game.Players.LocalPlayer
 local humanoid = game.Players.LocalPlayer.Character.Humanoid
