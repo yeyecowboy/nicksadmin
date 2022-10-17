@@ -139,17 +139,17 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
                 game.Players.LocalPlayer.Character["Right Leg"]:Destroy()
             end
         if AddCmd("baller") then
-            task.wait(0.2)
+            wait(1)
             SMR:FireServer("STOP POSTING ABOUT BALLER", "All")
-            task.wait(0.5)
+            wait(1)
             SMR:FireServer("IM TIRED OF SEEING IT", "All")
-            task.wait(0.5)
+            wait(1)
             SMR:FireServer("MY FRIENDS ON TIKTOK SEND ME BALLER", "All")
-            task.wait(0.5)
+            wait(1)
             SMR:FireServer("ON DKRD ITS FUDGING BALLER", "All")
-            task.wait(0.5)
+            wait(1)
             SMR:FireServer("I WAS IN STUDIO ORIGAMI RIGHT", "All")
-            task.wait(0.5)
+            wait(1)
             SMR:FireServer("AND ALL THE CHANNELS WERE JUST BALLER", "All")
         end
     end
