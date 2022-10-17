@@ -1,6 +1,7 @@
 wait(3)
 print("Executed!")
 prefix="=="
+Mouse = Players.LocalPLayer:GetMouse()
 function predictname(NameVariable)
             local Table = game.Players:GetChildren()
             for i,v in pairs (Table) do
@@ -153,6 +154,13 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
             for _, v in ipairs(Human:GetPlayingAnimationTracks()) do
                 v:Stop()
             end
+        end 
+        if AddCmd("infjump") then
+            Mouse.KeyDown:Connect(function(Key)
+                if infJump == true and Key == " " then
+                    Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid'):ChangeState(3)
+                end
+            end)
         end    
     end
 end)
