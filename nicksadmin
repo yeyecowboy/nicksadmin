@@ -1,7 +1,6 @@
 wait(3)
 print("Executed!")
 prefix="=="
-Mouse = Players.LocalPLayer:GetMouse()
 function predictname(NameVariable)
             local Table = game.Players:GetChildren()
             for i,v in pairs (Table) do
@@ -20,6 +19,12 @@ local humanoid = game.Players.LocalPlayer.Character.Humanoid
 local HRP = game.Players.LocalPlayer.Character.HumanoidRootPart
 local SMR = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
 local TW = task.wait
+local Mouse = localPlayer:GetMouse()
+Mouse.KeyDown:Connect(function(Key)
+    if infJump == true and Key == " " then
+        localPlayer.Character:FindFirstChildOfClass('Humanoid'):ChangeState(3)
+    end
+end) 
 TeleportService = game:GetService("TeleportService")
 game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Connect(function(messageData)
     local speaker, message = players[messageData.FromSpeaker], messageData.Message
@@ -156,11 +161,10 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
             end
         end 
         if AddCmd("infjump") then
-            Mouse.KeyDown:Connect(function(Key)
-                if infJump == true and Key == " " then
-                    Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid'):ChangeState(3)
-                end
-            end)
+            infJump = true
+        end  
+        if AddCmd("uninfjump") then
+            infJump = false
         end    
     end
 end)
