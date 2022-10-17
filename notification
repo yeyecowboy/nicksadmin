@@ -8,7 +8,7 @@ function Notify(titletxt, text, time)
     Main.Name = "MainFrame"
     Main.BackgroundColor3 = Color3.new(0.156863, 0.156863, 0.156863)
     Main.BorderSizePixel = 0
-    Main.Position = UDim2.new(100, 5, 0, 50)
+    Main.Position = UDim2.new(1000, 5, 0, 50)
     Main.Size = UDim2.new(0, 330, 0, 100)
 
     title.BackgroundColor3 = Color3.new(0, 0, 0)
@@ -29,9 +29,9 @@ function Notify(titletxt, text, time)
     message.TextSize = 16
 
     wait(0.1)
-    Main:TweenPosition(UDim2.new(100, -330, 0, 50), "Out", "Sine", 0.5)
+    Main:TweenPosition(UDim2.new(1000, -330, 0, 50), "Out", "Sine", 0.5)
     wait(time)
-    Main:TweenPosition(UDim2.new(100, 5, 0, 50), "Out", "Sine", 0.5)
+    Main:TweenPosition(UDim2.new(1000, 5, 0, 50), "Out", "Sine", 0.5)
     wait(0.6)
     GUI:Destroy();
 end
