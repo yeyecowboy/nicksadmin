@@ -127,16 +127,16 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
             SMR:FireServer("I took the wOOoOoCk to Poland", "All")
         end
         if AddCmd("nolimbs") then
-                game.Players.LocalPlayer.Character["Left Arm"]:Destroy()
-                game.Players.LocalPlayer.Character["Right Arm"]:Destroy()
-                game.Players.LocalPlayer.Character["Left Leg"]:Destroy()
-                game.Players.LocalPlayer.Character["Right Leg"]:Destroy()
+                localPlayer.Character["Left Arm"]:Destroy()
+                localPlayer.Character["Right Arm"]:Destroy()
+                localPlayer.Character["Left Leg"]:Destroy()
+                localPlayer.Character["Right Leg"]:Destroy()
             elseif AddCmd("noarms") then
-                game.Players.LocalPlayer.Character["Left Arm"]:Destroy()
-                game.Players.LocalPlayer.Character["Right Arm"]:Destroy()
+                localPlayer.Character["Left Arm"]:Destroy()
+                localPlayer.Character["Right Arm"]:Destroy()
             elseif AddCmd("nolegs") then
-                game.Players.LocalPlayer.Character["Left Leg"]:Destroy()
-                game.Players.LocalPlayer.Character["Right Leg"]:Destroy()
+                localPlayer.Character["Left Leg"]:Destroy()
+                localPlayer.Character["Right Leg"]:Destroy()
             end
         if AddCmd("baller") then
             wait(2)
@@ -152,5 +152,17 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
             wait(2)
             SMR:FireServer("AND ALL THE CHANNELS WERE JUST BALLER", "All")
         end
+        if AddCmd("lay") then
+            local Human = localPlayer.Character and localPlayer.Character:FindFirstChildOfClass('Humanoid')
+            if not Human then
+                return
+            end
+            Human.Sit = true
+            task.wait(.1)
+            Human.RootPart.CFrame = Human.HRP.CFrame * CFrame.Angles(math.pi * .5, 0, 0)
+            for _, v in ipairs(Human:GetPlayingAnimationTracks()) do
+                v:Stop()
+            end
+        end    
     end
 end)
