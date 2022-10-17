@@ -167,9 +167,10 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
             infJump = false
         end  
         if AddCmd("grav") then
-            local Args = tostring(string.split(message," ")[2]) or 196.2
-            if isNumber(Args) then
-                workspace.Gravity = Args
+            local Args = tostring(string.split(message," ")[2])
+            local grav = Args or 196.2
+            if isNumber(grav) then
+                workspace.Gravity = grav
             end 
         end
     end
