@@ -30,7 +30,8 @@ Mouse.KeyDown:Connect(function(Key)
         localPlayer.Character:FindFirstChildOfClass('Humanoid'):ChangeState(3)
     end
 end) 
-TeleportService = game:GetService("TeleportService")
+local TeleportService = game:GetService("TeleportService")
+local RunService = game:GetService("RunService")
 game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Connect(function(messageData)
     local speaker, message = players[messageData.FromSpeaker], messageData.Message
     function AddCmd(commandV)
@@ -178,5 +179,6 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
                 workspace.Gravity = grav
             end 
         end
+           
     end
 end)
