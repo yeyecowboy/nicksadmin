@@ -1,6 +1,6 @@
 wait(3)
 print("Executed!")
-prefix="=="
+prefix="-"
 function predictname(NameVariable)
             local Table = game.Players:GetChildren()
             for i,v in pairs (Table) do
@@ -18,18 +18,7 @@ function isNumber(str)
 		return true
 	end
 end
-local refreshCmd = false
-function refresh()
-	refreshCmd = true
-	local Human = localPlayer.Character and localPlayer.Character:FindFirstChildOfClass("Humanoid", true)
-	local pos = Human and Human.HumanoidRootPart and Human.HumanoidRootPart.CFrame
-	local pos1 = workspace.CurrentCamera.CFrame
-	respawn(plr)
-	task.spawn(function()
-		localPlayer.CharacterAdded:Wait():WaitForChild("Humanoid").HumanoidRootPart.CFrame, workspace.CurrentCamera.CFrame = pos, wait() and pos1
-		refreshCmd = false
-	end)
-end
+
 local players, replicatedStorage = game:GetService("Players"), game:GetService("ReplicatedStorage");
 local localPlayer = game.Players.LocalPlayer
 local humanoid = game.Players.LocalPlayer.Character.Humanoid
@@ -110,10 +99,7 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
         end  
         if AddCmd("rejoin") then
             TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
-        end 
-        if AddCmd("re") then
-            game.Players.LocalPlayer.Character.Humanoid.Health = 0
-        end    
+        end
         if AddCmd("reset") then
             game.Players.LocalPlayer.Character.Humanoid.Health = 0
         end
@@ -153,17 +139,17 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
                 localPlayer.Character["Right Leg"]:Destroy()
             end
         if AddCmd("baller") then
-            wait(2)
+            wait(1)
             SMR:FireServer("STOP POSTING ABOUT BALLER", "All")
-            wait(2)
+            wait(1)
             SMR:FireServer("IM TIRED OF SEEING IT", "All")
-            wait(2)
+            wait(1)
             SMR:FireServer("MY FRIENDS ON TACKTOCK SEND ME BALLER", "All")
-            wait(2)
+            wait(1)
             SMR:FireServer("ON DKRD ITS BALLER", "All")
-            wait(2)
+            wait(1)
             SMR:FireServer("I WAS IN STUDIO ORIGAMI RIGHT", "All")
-            wait(2)
+            wait(1)
             SMR:FireServer("AND ALL THE CHANNELS WERE JUST BALLER", "All")
         end
         if AddCmd("lay") then
@@ -201,7 +187,31 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
             end    
         end
         if AddCmd('refresh', 're') then
-            refresh(speaker)
-        end    
+            local oldCFrame = HRP.CFrame
+            localPlayer.Character.Humanoid.Health = 0
+            if localPlayer.Character.Humanoid.Health >= 0.1 then
+                HRP.CFrame = CFrame.new(oldCFrame)
+            end
+        end
+        local Noclipping = false
+        if AddCmd('noclip') then
+            Clip = false
+            wait(0.1)
+            local function NoclipLoop()
+            if Clip == false and speaker.Character ~= nil then
+			for _, child in pairs(speaker.Character:GetDescendants()) do
+				if child:IsA("BasePart") and child.CanCollide == true and child.Name ~= floatName then
+					child.CanCollide = false
+				end
+			end
+        end
+        if AddCmd('clip') then
+            if Noclipping then
+		        Noclipping:Disconnect()
+            end
+        end
+	    Clip = true
+	        end
+        end
     end
 end)
