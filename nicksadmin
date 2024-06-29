@@ -1,157 +1,157 @@
 wait(3)
 print("Executed!")
-prefix="-"
+prefix = "="
+
 function predictname(NameVariable)
-            local Table = game.Players:GetChildren()
-            for i,v in pairs (Table) do
-                if v.DisplayName ~= ""..game.Players.LocalPlayer.Name then
-                    if string.find(string.lower(v.Name), string.lower(NameVariable)) then
-                        return v.Name
-                    elseif string.find(string.lower(v.DisplayName), string.lower(NameVariable)) then
-                        return v.Name
-                    end
-                end
+    local Table = game.Players:GetChildren()
+    for i, v in pairs(Table) do
+        if v.DisplayName ~= "" .. game.Players.LocalPlayer.Name then
+            if string.find(string.lower(v.Name), string.lower(NameVariable)) then
+                return v.Name
+            elseif string.find(string.lower(v.DisplayName), string.lower(NameVariable)) then
+                return v.Name
             end
-end
-function isNumber(str)
-	if tonumber(str) ~= nil or str == 'inf' then
-		return true
-	end
+        end
+    end
 end
 
-local players, replicatedStorage = game:GetService("Players"), game:GetService("ReplicatedStorage");
-local localPlayer = game.Players.LocalPlayer
-local humanoid = game.Players.LocalPlayer.Character.Humanoid
-local HRP = game.Players.LocalPlayer.Character.HumanoidRootPart
-local SMR = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
+function isNumber(str)
+    if tonumber(str) ~= nil or str == 'inf' then
+        return true
+    end
+end
+
+local players = game:GetService("Players")
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = players.LocalPlayer
+local humanoid = localPlayer.Character.Humanoid
+local HRP = localPlayer.Character.HumanoidRootPart
 local TW = task.wait
 local Mouse = localPlayer:GetMouse()
+
 Mouse.KeyDown:Connect(function(Key)
     if infJump == true and Key == " " then
         localPlayer.Character:FindFirstChildOfClass('Humanoid'):ChangeState(3)
     end
-end) 
+end)
+
 local TeleportService = game:GetService("TeleportService")
 local RunService = game:GetService("RunService")
-game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Connect(function(messageData)
-    local speaker, message = players[messageData.FromSpeaker], messageData.Message
+
+game:GetService("TextChatService").OnIncomingMessage = function(message)
+    local speakerUserId = message.TextSource.UserId
+    local speaker = players:GetPlayerByUserId(speakerUserId)
+    local msgText = message.Text
+
     function AddCmd(commandV)
-        return string.match(message,"^"..prefix..tostring(commandV))
+        return string.match(msgText, "^" .. prefix .. tostring(commandV))
     end
-    if speaker.Name == ""..game.Players.LocalPlayer.Name or "kvoyr" then
+
+    if speaker and (speaker.Name == "" .. localPlayer.Name or speaker.Name == "kvoyr") then
         if AddCmd("cmds") then
-            print("Avaliable commands: \n==say,\n==goto,\n==ws or ==walkspeed,\n==jp or ==jumppower,\n==hh or ==hipheight,\n==sit (to get up press space),\n==iac or ==instantacceleration,\n==uniac or uninstantacceleration,\n==rj or ==rejoin,\n==re or ==reset,\n==walkto,\n==fwalkto")
+            print("Available commands: \n==say,\n==goto,\n==ws or ==walkspeed,\n==jp or ==jumppower,\n==hh or ==hipheight,\n==sit (to get up press space),\n==iac or ==instantacceleration,\n==uniac or uninstantacceleration,\n==rj or ==rejoin,\n==re or ==reset,\n==walkto,\n==fwalkto")
         end
+
         if AddCmd("say") then
-            if string.match(message,"^"..prefix.."say") then
-                 local Args = string.match(message,"%"..prefix.."say%s?(.+)")
-                 game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(Args, "All")
-            end
+            local Args = string.match(msgText, "%" .. prefix .. "say%s?(.+)")
+            game:GetService("TextChatService"):SendChat(Args, "All")
         end
+
         if AddCmd("goto") then
-            local Args = predictname(tostring(string.split(message," ")[2]))
-            HRP.CFrame = game.Players[Args].Character.HumanoidRootPart.CFrame
+            local Args = predictname(tostring(string.split(msgText, " ")[2]))
+            HRP.CFrame = players[Args].Character.HumanoidRootPart.CFrame
         end
-        if AddCmd("ws") then
-            local Args = tostring(string.split(message," ")[2])
+
+        if AddCmd("ws") or AddCmd("walkspeed") then
+            local Args = tostring(string.split(msgText, " ")[2])
             localPlayer.Character.Humanoid.WalkSpeed = Args
         end
-        if AddCmd("walkspeed") then
-            local Args = tostring(string.split(message," ")[2])
-            localPlayer.Character.Humanoid.WalkSpeed = Args
-        end
-        if AddCmd("jp") then
-            local Args = tostring(string.split(message," ")[2])
+
+        if AddCmd("jp") or AddCmd("jumppower") then
+            local Args = tostring(string.split(msgText, " ")[2])
             localPlayer.Character.Humanoid.JumpPower = Args
         end
-        if AddCmd("jumppower") then
-            local Args = tostring(string.split(message," ")[2])
-            localPlayer.Character.Humanoid.JumpPower = Args
+
+        if AddCmd("hh") or AddCmd("hipheight") then
+            local Args = tostring(string.split(msgText, " ")[2])
+            localPlayer.Character.Humanoid.HipHeight = Args
         end
-        if AddCmd("hh") then
-            local Args = tostring(string.split(message," ")[2])
-            game.Players.LocalPlayer.Character.Humanoid.HipHeight = Args
-        end
-        if AddCmd("hipheight") then
-            local Args = tostring(string.split(message," ")[2])
-            game.Players.LocalPlayer.Character.Humanoid.HipHeight = Args
-        end
+
         if AddCmd("sit") then
-            local Args = tostring(string.split(message," ")[2])
-            game.Players.LocalPlayer.Character.Humanoid.Sit = true
-            print("jump to get up from sitting")
+            localPlayer.Character.Humanoid.Sit = true
+            print("Jump to get up from sitting")
         end
-        if AddCmd("iac") then
-            game.Players.LocalPlayer.Character:GetChildren().CustomPhysicalProperties = nil
-            
-        end 
-        if AddCmd("instantaccelerate") then
-            game.Players.LocalPlayer.Character:GetChildren().CustomPhysicalProperties = nil
-        end 
-        if AddCmd("uniac") then
-            game.Players.LocalPlayer.Character.Humanoid.Health = 0
+
+        if AddCmd("iac") or AddCmd("instantaccelerate") then
+            localPlayer.Character:GetChildren().CustomPhysicalProperties = nil
         end
-        if AddCmd("uninstantaccelerate") then
-            game.Players.LocalPlayer.Character.Humanoid.Health = 0
-        end 
-        if AddCmd("rj") then
-            TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
-        end  
-        if AddCmd("rejoin") then
-            TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
+
+        if AddCmd("uniac") or AddCmd("uninstantaccelerate") then
+            localPlayer.Character.Humanoid.Health = 0
         end
+
+        if AddCmd("rj") or AddCmd("rejoin") then
+            TeleportService:Teleport(game.PlaceId, localPlayer)
+        end
+
         if AddCmd("reset") then
-            game.Players.LocalPlayer.Character.Humanoid.Health = 0
+            localPlayer.Character.Humanoid.Health = 0
         end
+
         if AddCmd("walkto") then
-            local Args = predictname(tostring(string.split(message," ")[2]))
-            humanoid.WalkToPoint = game.Players[Args].Character.HumanoidRootPart.Position
-        end  
+            local Args = predictname(tostring(string.split(msgText, " ")[2]))
+            humanoid.WalkToPoint = players[Args].Character.HumanoidRootPart.Position
+        end
+
         if AddCmd("fwalkto") then
-            local Args = predictname(tostring(string.split(message," ")[2]))
-            local Args1 = tostring(string.split(message," ")[3])
-            humanoid.WalkToPoint = game.Players[Args].Character.HumanoidRootPart.Position
+            local Args = predictname(tostring(string.split(msgText, " ")[2]))
+            local Args1 = tostring(string.split(msgText, " ")[3])
+            humanoid.WalkToPoint = players[Args].Character.HumanoidRootPart.Position
             localPlayer.Character.Humanoid.WalkSpeed = Args1
-            
-        end 
+        end
+
         if AddCmd("upd") then
-            SMR:FireServer("Updating...", "All")
+            game:GetService("TextChatService"):SendChat("Updating...", "All")
             local script = [[
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/yeyecowboy/nicksadmin/main/nicksadmin", true))()
             ]]
             local queue_on_teleport = (type(syn) == "table" and syn.queue_on_teleport) or queue_on_teleport
             queue_on_teleport(script)
-            TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
+            TeleportService:Teleport(game.PlaceId, localPlayer)
         end
+
         if AddCmd("wock") then
-            SMR:FireServer("I took the wOOoOoCk to Poland", "All")
+            game:GetService("TextChatService"):SendChat("I took the wOOoOoCk to Poland", "All")
         end
+
         if AddCmd("nolimbs") then
-                localPlayer.Character["Left Arm"]:Destroy()
-                localPlayer.Character["Right Arm"]:Destroy()
-                localPlayer.Character["Left Leg"]:Destroy()
-                localPlayer.Character["Right Leg"]:Destroy()
-            elseif AddCmd("noarms") then
-                localPlayer.Character["Left Arm"]:Destroy()
-                localPlayer.Character["Right Arm"]:Destroy()
-            elseif AddCmd("nolegs") then
-                localPlayer.Character["Left Leg"]:Destroy()
-                localPlayer.Character["Right Leg"]:Destroy()
-            end
+            localPlayer.Character["Left Arm"]:Destroy()
+            localPlayer.Character["Right Arm"]:Destroy()
+            localPlayer.Character["Left Leg"]:Destroy()
+            localPlayer.Character["Right Leg"]:Destroy()
+        elseif AddCmd("noarms") then
+            localPlayer.Character["Left Arm"]:Destroy()
+            localPlayer.Character["Right Arm"]:Destroy()
+        elseif AddCmd("nolegs") then
+            localPlayer.Character["Left Leg"]:Destroy()
+            localPlayer.Character["Right Leg"]:Destroy()
+        end
+
         if AddCmd("baller") then
             wait(1)
-            SMR:FireServer("STOP POSTING ABOUT BALLER", "All")
+            game:GetService("TextChatService"):SendChat("STOP POSTING ABOUT BALLER", "All")
             wait(1)
-            SMR:FireServer("IM TIRED OF SEEING IT", "All")
+            game:GetService("TextChatService"):SendChat("IM TIRED OF SEEING IT", "All")
             wait(1)
-            SMR:FireServer("MY FRIENDS ON TACKTOCK SEND ME BALLER", "All")
+            game:GetService("TextChatService"):SendChat("MY FRIENDS ON TACKTOCK SEND ME BALLER", "All")
             wait(1)
-            SMR:FireServer("ON DKRD ITS BALLER", "All")
+            game:GetService("TextChatService"):SendChat("ON DKRD ITS BALLER", "All")
             wait(1)
-            SMR:FireServer("I WAS IN STUDIO ORIGAMI RIGHT", "All")
+            game:GetService("TextChatService"):SendChat("I WAS IN STUDIO ORIGAMI RIGHT", "All")
             wait(1)
-            SMR:FireServer("AND ALL THE CHANNELS WERE JUST BALLER", "All")
+            game:GetService("TextChatService"):SendChat("AND ALL THE CHANNELS WERE JUST BALLER", "All")
         end
+
         if AddCmd("lay") then
             local Human = localPlayer.Character and localPlayer.Character:FindFirstChildOfClass('Humanoid')
             if not Human then
@@ -163,29 +163,34 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
             for _, v in ipairs(Human:GetPlayingAnimationTracks()) do
                 v:Stop()
             end
-        end 
+        end
+
         if AddCmd("infjump") then
             infJump = true
-        end  
+        end
+
         if AddCmd("uninfjump") then
             infJump = false
-        end  
+        end
+
         if AddCmd("grav") then
-            local Args = tostring(string.split(message," ")[2])
+            local Args = tostring(string.split(msgText, " ")[2])
             local grav = Args or 196.2
             if isNumber(grav) then
                 workspace.Gravity = grav
-            end 
+            end
         end
+
         if AddCmd("touchinterests") then
-            for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+            for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
                 if v.Name == "TouchInterest" and v.Parent then
-                    firetouchinterest(humanoidrootpart, v.Parent, 0)
+                    firetouchinterest(HRP, v.Parent, 0)
                     task.wait(0.1)
-                    firetouchinterest(humanoidrootpart, v.Parent, 1)
-                end 
-            end    
+                    firetouchinterest(HRP, v.Parent, 1)
+                end
+            end
         end
+
         if AddCmd('refresh', 're') then
             local oldCFrame = HRP.CFrame
             localPlayer.Character.Humanoid.Health = 0
@@ -193,25 +198,29 @@ game.ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent:Co
                 HRP.CFrame = CFrame.new(oldCFrame)
             end
         end
+
         local Noclipping = false
         if AddCmd('noclip') then
             Clip = false
             wait(0.1)
             local function NoclipLoop()
-            if Clip == false and speaker.Character ~= nil then
-			for _, child in pairs(speaker.Character:GetDescendants()) do
-				if child:IsA("BasePart") and child.CanCollide == true and child.Name ~= floatName then
-					child.CanCollide = false
-				end
-			end
+                if Clip == false and speaker.Character ~= nil then
+                    for _, child in pairs(speaker.Character:GetDescendants()) do
+                        if child:IsA("BasePart") and child.CanCollide == true and child.Name ~= floatName then
+                            child.CanCollide = false
+                        end
+                    end
+                end
+            end
+
+            RunService.Stepped:Connect(NoclipLoop)
         end
+
         if AddCmd('clip') then
+            Clip = true
             if Noclipping then
-		        Noclipping:Disconnect()
+                Noclipping:Disconnect()
             end
         end
-	    Clip = true
-	        end
-        end
     end
-end)
+end
