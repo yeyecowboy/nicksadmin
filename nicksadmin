@@ -1,6 +1,7 @@
 wait(3)
 print("Executed!")
 prefix = "="
+loadstring(game:HttpGet('https://raw.githubusercontent.com/yeyecowboy/nicksadmin/main/notification'))()
 
 function predictname(NameVariable)
     local Table = game.Players:GetChildren()
