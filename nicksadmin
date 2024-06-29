@@ -48,7 +48,7 @@ game:GetService("TextChatService").OnIncomingMessage = function(message)
         return string.match(msgText, "^" .. prefix .. tostring(commandV))
     end
 
-    if speaker and (speaker.Name == "" .. localPlayer.Name or speaker.Name == "kvoyr") then
+    if speaker and (speaker.Name == "" .. localPlayer.Name) then
         if AddCmd("cmds") then
             print("Available commands: \n==say,\n==goto,\n==ws or ==walkspeed,\n==jp or ==jumppower,\n==hh or ==hipheight,\n==sit (to get up press space),\n==iac or ==instantacceleration,\n==uniac or uninstantacceleration,\n==rj or ==rejoin,\n==re or ==reset,\n==walkto,\n==fwalkto")
         end
