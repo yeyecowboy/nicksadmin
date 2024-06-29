@@ -36,4 +36,4 @@ function Notify(titletxt, text, time)
     GUI:Destroy();
 end
 
-Notify("Welcome to NAdmin", "Executed succesfully! Prefix is: -", 5)
+Notify("Welcome to N/Admin", "Executed succesfully! Prefix is: =", 5)
